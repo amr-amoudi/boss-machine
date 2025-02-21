@@ -6,7 +6,8 @@ const {
     // creates a meeting duh 🙄😑
     createMeeting,
     // yk
-    deleteAllFromDatabase
+    deleteAllFromDatabase,
+    addMeeting, addToDatabase
 } = require('./db');
 
 
@@ -15,7 +16,9 @@ meeting.get("/", (req, res,next) => {
 })
 
 meeting.post("/", (req, res,next) => {
-    res.status(201).send(createMeeting());
+    const newMeeting = createMeeting();
+    addToDatabase("meetings", newMeeting);
+    res.status(201).send(newMeeting);
 })
 
 meeting.delete("/", (req, res,next) => {

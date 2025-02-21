@@ -9,7 +9,7 @@ const apiBodies = {
         description: "string",
         numWeeks: "number",
         weeklyRevenue: "number"
-    }
+    },
 };
 
 module.exports = {apiBodies}

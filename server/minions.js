@@ -13,6 +13,7 @@ const {
 
 
 const {errorHandler,getItemById, checkValidBody} = require('./utils');
+const {work} = require("./work");
 const minionRouter = express.Router();
 
 minionRouter.param("minionId", getItemById)
@@ -25,7 +26,7 @@ minionRouter.get('/', (req, res,next) => {
 minionRouter.post('/', checkValidBody,(req, res, next) => {
     const requestBody = req.body;
     addToDatabase("minions",requestBody);
-    res.status(201).send();
+    res.status(201).send(requestBody);
 })
 
 //===============\\
@@ -37,18 +38,22 @@ minionRouter.get('/:minionId', (req, res,next) => {
     res.status(200).send(item);
 })
 
-minionRouter.put('/:minionId', checkValidBody,(req, res, next) => {
+minionRouter.put('/:minionId',(req, res, next) => {
     const id = req.id;
+    const item = req.item;
     const body = req.body;
-    updateInstanceInDatabase("minions",{...body, id});
-    res.send(204).send();
+    const newMinion = {...item,...body, id};
+    updateInstanceInDatabase("minions",newMinion);
+    res.status(200).send(newMinion);
 })
 
-minionRouter.delete('/:minionId',checkValidBody, (req, res, next) => {
+minionRouter.delete('/:minionId', (req, res, next) => {
     const id = req.id;
     deleteFromDatabasebyId("minions",id);
     res.status(204).send();
 })
+
+minionRouter.use("/:minionId/work",work)
 
 // error middleware
 minionRouter.use(errorHandler);

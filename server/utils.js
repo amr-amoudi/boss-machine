@@ -7,16 +7,21 @@ const errorHandler = (error, req, res, next) => {
 };
 
 const getItemById = (req, res, next, id) => {
+    if(!Number(id)){
+        const error = new Error('id should be a number');
+        error.status = 404;
+        return next(error);
+    }
+
     const item = getFromDatabaseById(req.baseUrl.split('/')[2], id);
 
-    console.log(item)
     if(item) {
         req.item = item;
         req.id = id
         return next();
     }else {
         const error = new Error('item not Found');
-        error.status = 400;
+        error.status = 404;
         return next(error);
     }
 }

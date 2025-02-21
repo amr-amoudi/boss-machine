@@ -10,7 +10,7 @@ const {
     // takes a model name as the first argument and the request body as the second argument and the body must have the id init
     updateInstanceInDatabase,
 } = require('./db');
-const {checkMillionDollarIdea} = require('./checkMillionDollarIdea');
+const checkMillionDollarIdea = require('./checkMillionDollarIdea');
 
 
 const {errorHandler, getItemById, checkValidBody} = require('./utils');
@@ -50,7 +50,7 @@ ideas.get("/", (req, res, next) => {
 ideas.post("/", checkValidBody, checkMillionDollarIdea,(req, res, next) => {
     const body = req.body;
     addToDatabase("ideas", body);
-    res.status(201).send();
+    res.status(201).send(body);
 })
 
 //===============\\
@@ -62,11 +62,13 @@ ideas.get("/:ideaId", (req, res, next) => {
     res.status(200).send(item);
 })
 
-ideas.put("/:ideaId", checkValidBody, checkMillionDollarIdea,(req, res, next) => {
+ideas.put("/:ideaId",(req, res, next) => {
     const id = req.id;
+    const item = req.item;
     const body = req.body;
-    updateInstanceInDatabase("ideas", {...body, id: id});
-    res.status(204).send();
+    const newIdea = {...item,...body, id};
+    updateInstanceInDatabase("ideas", newIdea);
+    res.status(200).send(newIdea);
 })
 
 ideas.delete("/:ideaId", (req, res, next) => {
