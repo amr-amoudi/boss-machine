@@ -7,7 +7,7 @@ const {
     createMeeting,
     // yk
     deleteAllFromDatabase,
-    addMeeting, addToDatabase
+    addToDatabase
 } = require('./db');
 
 

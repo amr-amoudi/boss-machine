@@ -16,30 +16,6 @@ const checkMillionDollarIdea = require('./checkMillionDollarIdea');
 const {errorHandler, getItemById, checkValidBody} = require('./utils');
 const ideas = express.Router();
 
-// const checkValidBody = (req, res, next) => {
-//     const requestBody = req.body;
-//
-//     // if an item is missing in the body object it will throw an error
-//     if(
-//         !requestBody.name ||
-//         !requestBody.numWeeks ||
-//         !requestBody.description ||
-//         !requestBody.weeklyRevenue
-//     ) {
-//         const error = new Error("idea's should have [name, description, numWeeks and weeklyRevenue]")
-//         error.status = 404;
-//         return next(error);
-//     }else if(
-//         typeof requestBody.numWeeks === 'string' ||
-//         typeof requestBody.weeklyRevenue === 'string'
-//     ) {
-//         const error = new Error("numWeeks and weeklyRevenue must be a number")
-//         error.status = 404;
-//         return next(error);
-//     }else {
-//         return next();
-//     }
-// };
 
 ideas.param("ideaId", getItemById)
 
